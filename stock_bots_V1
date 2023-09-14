@@ -21,7 +21,7 @@ for _ in range(total_runs):
     # sets 2 variables to be .05, then -.05. This is the start to my randomize price percentage plan
     percentage = 1/2
     neg_percentage = 1/2 * -1
-    #This randomizes the random price percentage between -.05 and .05
+    #This randomizes the random price percentage between -.5 and .5
     randomize_price_percentage = random.uniform(neg_percentage,percentage)
     randomize_price_percentage = round(randomize_price_percentage, 2)
     #print(randomize_price_percentage)

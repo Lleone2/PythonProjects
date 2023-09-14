@@ -1,0 +1,65 @@
+import time
+import random
+#from fractions import Fraction
+buyer_cash = 10000
+buyer_stocks = 0
+seller_cash = 1000000000
+stock_amt_seller = 15000000
+stock_amt_buyer = 0
+stock_price = 10
+randomize_price_dollar= 0
+randomize_price_percentage = 0
+
+# Number of times to run the task
+total_runs = 60
+
+# Loop 60 times, This is for the seller
+for _ in range(total_runs):
+    # Random shares are being sold
+    n = random.randint(0,stock_amt_seller)
+
+    # sets 2 variables to be .05, then -.05. This is the start to my randomize price percentage plan
+    percentage = 1/2
+    neg_percentage = 1/2 * -1
+    #This randomizes the random price percentage between -.05 and .05
+    randomize_price_percentage = random.uniform(neg_percentage,percentage)
+    randomize_price_percentage = round(randomize_price_percentage, 2)
+    #print(randomize_price_percentage)
+
+
+    #This will randomize the price the seller is selling stocks for using the random price percentage calculated before, and the randomize price dollar
+    randomize_price_dollar = (stock_price * randomize_price_percentage)
+    stock_price = randomize_price_dollar + stock_price
+    stock_price = round(stock_price,2)
+    #print(stock_price)
+
+    #This will randomize how many stocks the seller is selling
+    amt_seller_selling = random.randint(0,stock_amt_seller)
+    total_Seller_Cash_Sold = round(stock_price * amt_seller_selling,2)
+    print("The seller is selling " + str(amt_seller_selling) + " for " + str(stock_price) + " a share. The seller will be making $" + str(total_Seller_Cash_Sold) + " if they sell everything!" )
+
+    # Below is the buyers logic
+    buyer_purchase_price = 10
+
+    # this if statement determins if the buyer will be able to buy the stocks, and if so, how many he can buy. The fist bit will buy everything, the next will buy some,
+    # the next will buy nothing.
+    if buyer_cash >= 1000 and stock_price <= buyer_purchase_price and buyer_cash >= total_Seller_Cash_Sold:
+
+        buyer_stocks = buyer_stocks + amt_seller_selling
+        buyer_cash = round(buyer_cash - total_Seller_Cash_Sold, 2)
+        print(buyer_stocks)
+        print(buyer_cash)
+
+    #this section is to buy a partial amount of whatever the seller is selling, assuming it is above what the buyer has money for
+    elif buyer_cash >= 1000 and stock_price <= buyer_purchase_price and buyer_cash <= total_Seller_Cash_Sold:
+        leftover_sold = total_Seller_Cash_Sold
+        while total_Seller_Cash_Sold >= buyer_cash:
+            total_Seller_Cash_Sold -= buyer_cash
+            leftover_amount = round(leftover_sold - total_Seller_Cash_Sold,2)
+            if total_Seller_Cash_Sold <= buyer_cash:
+                print("$" + str(round(total_Seller_Cash_Sold,2)) + " of stock was bought.")
+    else:
+        print("The seller is asking more than what we have cash for.")
+
+    # Sleep for 10 seconds
+    time.sleep(10)
